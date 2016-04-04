@@ -33,7 +33,12 @@
 
 \section{Introduction}
 \label{sec:intro}
-Create an infinite world using procedural generation in Unity 5.
+In our midterm project, we created a procedural generator for Unity, using the built in Terrain Object. We used Perlin noise to generate the heightmap, erosion algorithm to make the terrain look more natural and logic algorithm to paint the textures and place some trees.
+Finally we created an underwater scene, put down some nice caustics effect and made the built-in water plane look better. 
+The problems that we encountered were that our algorithms relied on using a single Terrain object.
+Generating a large terrain was very processor intense, took a long time to build and it was always finite.
+We didn't have time to work on a nice soundscape and our texturing was fairly simplistic.
+So the question was, could we create an infinite world using procedural generation in Unity 5?
 
 \section{Motivation}
 \label{sec:motiv}
@@ -46,15 +51,33 @@ No man's sky
 \section{Approach}
 \label{sec:approach}
 
-\subsection{Texture}
+\subsection{Infinite Worlds}
+\label{subsec:infinite}
+
+\subsection{Perlin noise}
+\label{subsec:perlin}
+
+\subsection{Erosion}
+\label{subsec:erosion}
+
+\subsection{Fringe}
+\label{subsec:fringe}
+
+\subsection{Speed}
+\label{subsec:speed}
+
+\subsection{Improved Texturing}
 \label{subsec:texture}
 We improved the texturing a lot. Instead of randomly blend textures together, we gradually blended them using Perlin noise. On top of that we textured our terrain based on the height and slope. 
 We added beaches to our terrain. When to slope was high at a waterline, we let the mountain dive in to the water. On other places where the slope was low, beaches were created - where the user could specify how high the shore line should be.
 
 \subsection{Tree Generation}
 \label{subsec:tree}
-In our former project, we added trees randomly to the terrain based on height and slope. Trees were more unlikely to be where the altitude was high and smaller - because of less oxygen. Height and width calculations of the trees was also randomly.
+In our former project, we added trees randomly to the terrain based on height and slope. Trees were more unlikely to be where the altitude was high and they also tended to be smaller - because of less oxygen. Height and width calculations of the trees was also calculated randomly.
 Our problem was that in order to make tree generation asynchronous we would have to use the random numbers to keep the desired performance. With Unity being thread safe, we could not create random numbers on the child threads. We decided then to let the main thread create a random number array that would be passed to the child threads, and there the three generations would happen without affecting the main thread.
+
+\subsection{Sound effects}
+\label{subsec:sound}
 
 \section{Result}
 \label{sec:result}
