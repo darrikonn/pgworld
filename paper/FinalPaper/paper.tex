@@ -1,0 +1,86 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+
+\title{%
+    Procedural World Generation in Unity 5
+\\ \large GEDE Spring 2016}
+\author{Darri Konráðsson, Einar Gissurarson, Steve Losh}
+
+\date{\today}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{units}
+
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{graphicx}
+\usepackage{subfig}
+
+\usepackage{hyperref} % have to load hyperref before apacite because latex is a joke
+\usepackage{apacite}
+
+\usepackage[a4paper,hmargin=3.0cm,vmargin=3.0cm,bindingoffset=0.0cm]{geometry}
+
+\newcommand\fnurl[2]{%
+  \href{#2}{#1}\footnote{\url{#2}}%
+}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+Create an infinite world using procedural generation in Unity 5.
+
+\section{Motivation}
+\label{sec:motiv}
+Game designers that have very large world would definetily see the possibility of using our project. By procedurally generating the world, the designers would save a lot of time.
+
+\section{Related Work}
+\label{sec:related}
+No man's sky
+
+\section{Approach}
+\label{sec:approach}
+
+\subsection{Texture}
+\label{subsec:texture}
+We improved the texturing a lot. Instead of randomly blend textures together, we gradually blended them using Perlin noise. On top of that we textured our terrain based on the height and slope. 
+We added beaches to our terrain. When to slope was high at a waterline, we let the mountain dive in to the water. On other places where the slope was low, beaches were created - where the user could specify how high the shore line should be.
+
+\subsection{Tree Generation}
+\label{subsec:tree}
+In our former project, we added trees randomly to the terrain based on height and slope. Trees were more unlikely to be where the altitude was high and smaller - because of less oxygen. Height and width calculations of the trees was also randomly.
+Our problem was that in order to make tree generation asynchronous we would have to use the random numbers to keep the desired performance. With Unity being thread safe, we could not create random numbers on the child threads. We decided then to let the main thread create a random number array that would be passed to the child threads, and there the three generations would happen without affecting the main thread.
+
+\section{Result}
+\label{sec:result}
+
+\subsection{Successful Results}
+\label{subsec:success}
+Texturing looks better and more smoothly, but it can still be improved.
+Adding trees to the terrain looks good, and the user can now decide the amount of tree strength he wants to be inserted to the terrain.
+Improved the editor so the user has more control of how he wants his world to look alike.
+
+\subsection{Unsuccessful Results}
+\label{subsec:unsuccess}
+Adding grass to a terrain relies on the detailed resolution of the terrain, instead of the alphamap- or heightmap resolution. This made it difficult to add the grass asynchronously, because it would depend on other things being generated at first - e.g. texturing. We implemented the grass generation as so: for every fragment in our terrain we check for each texture in that terrain (the sum of the textures will add up to 1) and then we would add grass depending on the textures of that particular point.
+We were able to implement this on a single terrain, but simply ran out of time when we were trying to add this to our infinite terrain.
+
+\section{Future Work}
+\label{sec:future}
+Add Grass
+Better texture blending
+Better editor UI
+Random seeds
+Day/night cycles
+Biomes
+Entities
+
+\bibliographystyle{apacite}
+\bibliography{references}
+
+\end{document}
